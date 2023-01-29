@@ -1,0 +1,22 @@
+name: Deploy and Configure Docker
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+- name: Checkout code
+    uses: actions/checkout@v2
+- name: Install Ansible
+    run: |
+      sudo apt-add-repository -y ppa:ansible/ansible
+      sudo apt-get update
+      sudo apt-get install -y ansible
+- name: Configure SSH for remote host
+    run: |
+      ssh-keyscan -H 54.144.50.134 >> ~/.ssh/known_hosts
+      echo ${{ secrets.SSH_PRIVATE_KEY }} | tr -d '\r' | ssh-add -
+- name: Run Ansible playbook
+    run: ansible-playbook -i 54.144.50.134, playbook.yml --private-key ~/.ssh/id_rsa
+

@@ -1,0 +1,25 @@
+---
+- name: Deploy and configure Docker
+  hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - role: docker
+      - tasks:
+	      - name: Install Docker
+                package:
+                  name: docker-ce
+                  state: present
+	      - name: Start and enable Docker service
+                service:
+                  name: docker
+                  state: started
+                  enabled: yes
+	      - name: Install Software for Pip3
+	        package:
+	          name: "python36"
+	          state: present
+	      - name: Install Pip Docker Library
+	        pip:
+	          name: "docker-py"
+
