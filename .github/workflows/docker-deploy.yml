@@ -14,10 +14,9 @@ jobs:
         sudo apt-add-repository -y ppa:ansible/ansible
         sudo apt-get update
         sudo apt-get install -y ansible
-    - name: Configure SSH for remote host
-      run: |
-        ssh-keyscan -H 54.144.50.134 >> ~/.ssh/known_hosts
-        echo ${{ secrets.SSH_PRIVATE_KEY }} | tr -d '\r' | ssh-add -
+        #- name: Configure SSH for remote host
+        #run: |
+        #ssh-keyscan -H 54.144.50.134 >> ~/.ssh/known_hosts
+        #echo ${{ secrets.SSH_PRIVATE_KEY }} | tr -d '\r' | ssh-add -
     - name: Run Ansible playbook
-      run: ansible-playbook -i 54.144.50.134, playbook.yml --private-key ~/.ssh/id_rsa
-
+      run: ansible-playbook -i 52.90.61.72, playbook.yml
