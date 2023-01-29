@@ -19,4 +19,4 @@ jobs:
         #ssh-keyscan -H 54.144.50.134 >> ~/.ssh/known_hosts
         #echo ${{ secrets.SSH_PRIVATE_KEY }} | tr -d '\r' | ssh-add -
     - name: Run Ansible playbook
-      run: ansible-playbook -i 52.90.61.72, playbook.yml
+      run: ansible-playbook -i 3.95.228.104, playbook.yml
