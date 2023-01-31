@@ -19,9 +19,13 @@ jobs:
         ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
     - name: Run Ansible Playbook
       uses: euclid1990/actions-ansible@v2
-      #run: ansible-playbook playbook.yml
       with:
         playbook: playbook.yml
+        inventory: |
+           [remote_server]
+           172.31.62.72
+           [ansible]
+           172.31.19.79
         options: --extra-vars ansible_connection=ssh ansible_user=${{ env.ANSIBLE_USER }} ansible_host=${{ env.ANSIBLE_HOST }}
 
 
