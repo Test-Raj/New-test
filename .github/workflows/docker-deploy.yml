@@ -9,16 +9,16 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-steps:
+    steps:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Configure SSH key
-      uses: shimat/setup-ssh-action@v1
+      uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
     - name: Run Ansible Playbook
-      uses: ansible/ansible-action@v2
+      uses: dawidd6/action-ansible-playbook@v2
       with:
         ansible-version: 2.10.0
         ansible-playbook: playbook.yml
