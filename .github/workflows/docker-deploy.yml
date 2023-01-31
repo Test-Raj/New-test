@@ -20,8 +20,7 @@ jobs:
     - name: Run Ansible Playbook
       uses: dawidd6/action-ansible-playbook@v2
       with:
-        ansible-version: 2.10.0
-        ansible-playbook: playbook.yml
+        playbook: playbook.yml
         extra-vars: |
           ansible_connection=ssh
           ansible_user=${{ env.ANSIBLE_USER }}
