@@ -13,12 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Configure SSH key
-      uses: actions/setup-ssh-action@v2.0.0
+      uses: tanmancan/action-setup-ssh-agent-key@1.0.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
     - name: Run Ansible Playbook
-      uses: actions/actions-ansible@v2
+      uses: MattyJ007/test-action-ansible-playbook
       with:
         playbook: playbook.yml
         options: --extra-vars ansible_connection=ssh ansible_user=${{ env.ANSIBLE_USER }} ansible_host=${{ env.ANSIBLE_HOST }}
