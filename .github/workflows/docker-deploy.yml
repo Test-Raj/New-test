@@ -1,27 +1,29 @@
-name: Deploy and Configure Docker
+name: Deploy to Remote Host
 on:
   push:
     branches:
       - master
+env:
+  ANSIBLE_HOST: 172.31.19.79
+  ANSIBLE_USER: ansadmin
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout the code
+steps:
+    - name: Checkout code
       uses: actions/checkout@v2
-    - name: Install Ansible
-      run: |
-        sudo apt-add-repository -y ppa:ansible/ansible
-        sudo apt-get update
-        sudo apt-get install -y ansible
-    - name: Install SSH Key
-      uses: shimataro/ssh-key-action@v2
+    - name: Configure SSH key
+      uses: shimat/setup-ssh-action@v1
       with:
-           key: ${{ secrets.SSH_PRIVATE_KEY }}
-           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-    - name: Configure SSH for remote VM
-      run: |
-        ssh-keyscan -H 54.172.247.135 >> ~/.ssh/known_hosts
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
-    - name: Run Ansible playbook
-      run: ansible-playbook -i 54.172.247.135, playbook.yml --private-key ~/.ssh/id_rsa
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+    - name: Run Ansible Playbook
+      uses: ansible/ansible-action@v2
+      with:
+        ansible-version: 2.10.0
+        ansible-playbook: playbook.yml
+        extra-vars: |
+          ansible_connection=ssh
+          ansible_user=${{ env.ANSIBLE_USER }}
+          ansible_host=${{ env.ANSIBLE_HOST }}
+
