@@ -1,6 +1,6 @@
 ---
 - name: Deploy and configure Docker
-  hosts: remote_server
+  hosts: remoteserver
   gather_facts: true
   become: true
   tasks:
