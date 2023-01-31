@@ -18,7 +18,7 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
     - name: Run Ansible Playbook
-      uses: MattyJ007/test-action-ansible-playbook
+      uses: dawidd6/action-ansible-playbook@v2
       with:
         playbook: playbook.yml
         options: --extra-vars ansible_connection=ssh ansible_user=${{ env.ANSIBLE_USER }} ansible_host=${{ env.ANSIBLE_HOST }}
