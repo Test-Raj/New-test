@@ -10,7 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout the code
+    - name: Checkout code
       uses: actions/checkout@v2
     - name: Configure SSH key
       uses: tanmancan/action-setup-ssh-agent-key@1.0.0
