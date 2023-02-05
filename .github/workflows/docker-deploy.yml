@@ -11,7 +11,7 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Checkout the code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
         #- name: Configure SSH key
       #uses: tanmancan/action-setup-ssh-agent-key@1.0.0
         #with:
