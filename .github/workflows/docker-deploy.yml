@@ -20,7 +20,6 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
       #with:
