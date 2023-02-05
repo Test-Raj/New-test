@@ -23,7 +23,7 @@ jobs:
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
       #with:
-        playbook: playbook.yml
+      #playbook: playbook.yml
           #inventory: |
           #[remote_server]
           #172.31.62.72
