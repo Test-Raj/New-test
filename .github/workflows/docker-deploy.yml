@@ -12,11 +12,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-        #- name: Configure SSH key
-      #uses: tanmancan/action-setup-ssh-agent-key@1.0.0
-        #with:
-        #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+    - name: Configure SSH key
+      uses: tanmancan/action-setup-ssh-agent-key@1.0.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           #host: ${{ secrets.HOST }}
           #username: ${{ secrets.USERNAME }}
           #password: ${{ secrets.PASSWORD }}
