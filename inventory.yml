@@ -1,2 +1,2 @@
 [docker]
-172.31.61.158  ansible_ssh_user=ansadmin  ansible_ssh_pass=Password@123
+172.31.61.158  ansible_user=ansadmin  ansible_pass=Password@123
