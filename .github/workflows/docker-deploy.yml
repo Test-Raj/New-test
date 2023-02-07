@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - master
-env:
-  ANSIBLE_HOST: 172.31.62.26
-  ANSIBLE_USER: ansadmin
+        #env:
+        #ANSIBLE_HOST: 172.31.62.26
+        #ANSIBLE_USER: ansadmin
 jobs:
   deploy:
     runs-on: ubuntu-latest
