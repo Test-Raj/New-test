@@ -48,7 +48,7 @@
        #source: pull
      register: z
 
-   - name: Checking Pull Status
+   - name: Checking the Pull Status
      debug:
        var: z
 
