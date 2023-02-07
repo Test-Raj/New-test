@@ -39,7 +39,7 @@
        #enabled: yes
      when: y.failed == false
 
-   - name: Install
+   - name: Install package
      command: sudo pip install docker-py
 
    - name: Pull a Docker Image
