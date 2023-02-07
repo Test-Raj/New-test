@@ -1,3 +1,5 @@
+---
+- name: Deploy and configure Docker
 - hosts: docker
   tasks:
    - name: Configuring Docker Repository
