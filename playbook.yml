@@ -53,6 +53,16 @@
      debug:
        var: z
 
+   - name: Creating a Persistent Volume Dir
+     file:
+       path: "/root/pv"
+       state: directory
+
+   - name: Copying the HTML code in the Directory
+     copy: 
+       src: "/root/index.html"
+       dest: "/root/pv"
+
    - name: Launching an HTTPD Container
      when: z.failed == false
      command: sudo docker run -p 8082:8080 httpd 
