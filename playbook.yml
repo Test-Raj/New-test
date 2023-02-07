@@ -41,6 +41,18 @@
    - name: Install python package
      command: sudo pip3 install docker-py
 
+   - name: stop existing container
+     command: docker stop apache-server
+     ignore_errors: yes
+
+   - name: remove the container
+     command: docker rm apache-server
+     ignore_errors: yes
+
+   - name: remove image
+      command: docker rmi httpd
+      ignore_errors: yes
+
    - name: Pull a Docker Image
      command: sudo docker pull httpd:latest
        #docker_image:
@@ -65,7 +77,7 @@
 
    - name: Launching an HTTPD Container
      when: z.failed == false
-     command: sudo docker run -p 8082:8080 httpd 
+     command: sudo docker run -it --name apache-server -p 8082:8080 httpd 
       #docker_container:
             #name: apache-server
             #image: httpd
