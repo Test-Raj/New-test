@@ -30,9 +30,8 @@
        var: y.failed
 
    - name: Starting Docker Daemon
-     command: |
-             sudo service docker start
-             sudo systemctl enable docker
+     command: sudo systemctl start docker
+             #sudo systemctl enable docker
        #service:
        #name: docker
        #state: started
@@ -40,7 +39,7 @@
      when: y.failed == false
 
    - name: Install python package
-     command: sudo pip install docker-py
+     command: sudo pip3 install docker-py
 
    - name: Pull a Docker Image
      command: sudo docker pull httpd:latest
@@ -56,10 +55,8 @@
 
    - name: Launching an HTTPD Container
      when: z.failed == false
-     command: |
-            sudo yum install httpd -y
-            sudo docker run -it --name apache-server httpd -p 8888:80 -v /root/pv:/usr/local/apache2/htdocs
-            #docker_container:
+     command: sudo docker run -p 8082:8080 httpd 
+      #docker_container:
             #name: apache-server
             #image: httpd
             #state: started
