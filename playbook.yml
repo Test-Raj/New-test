@@ -1,5 +1,5 @@
 ---
-- hosts: remoteserver
+- hosts: docker
   tasks:
    - name: Configuring Docker Repository
      yum_repository:
