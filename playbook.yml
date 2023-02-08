@@ -77,7 +77,7 @@
 
    - name: Launching an HTTPD Container
      when: z.failed == false
-     command: sudo docker run -it --name apache-server -p 8082:80 httpd 
+     command: sudo docker run -it --name apache-server -p 8083:80 httpd 
       #docker_container:
             #name: apache-server
             #image: httpd
