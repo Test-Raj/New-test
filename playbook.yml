@@ -1,6 +1,6 @@
 ---
 - name: Deploy and configure Docker
-  hosts: docker
+  hosts: remoteserver
   tasks:
    - name: Configuring Docker Repository
      command: sudo yum update -y
@@ -72,7 +72,7 @@
 
    - name: Copying the HTML code in the Directory
      copy: 
-       src: "/root/index.html"
+       src: "/var/www/html/index.html"
        dest: "/root/pv"
 
    - name: Launching an HTTPD Container

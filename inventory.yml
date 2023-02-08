@@ -1,3 +1,8 @@
-[docker]
-172.31.61.158  
+#[docker]
+#172.31.61.158  
 #ansible_connection=ssh ansible_user=ansadmin  ansible_password='Password@123' ansible_become=true
+
+[remoteserver]
+172.31.62.72 
+
+
