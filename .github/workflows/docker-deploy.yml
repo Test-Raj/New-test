@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - master
-env:
-  HOST: 100.26.52.119
-  USER: root
+        #env:
+        #HOST: 100.26.52.119
+        #USER: root
 
 jobs:
   deploy:
@@ -13,11 +13,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-        #- name: Configure SSH key
-        #uses: tanmancan/action-setup-ssh-agent-key@1.0.0
-        #with:
-          #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          #ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
+    
+    - name: Configure SSH key
+      uses: tanmancan/action-setup-ssh-agent-key@1.0.0
+      with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
           #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           #host: ${{ secrets.SSH_HOST }}
           #username: ${{ secrets.USERNAME }}
@@ -29,9 +30,9 @@ jobs:
         #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         #ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
 
-    - name: Connect over SSH
-      run: |
-        ssh -T ${{ env.USER }}@${{ env.HOST }}
+        #- name: Connect over SSH
+        #run: |
+        #ssh -T ${{ env.USER }}@${{ env.HOST }}
 
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
