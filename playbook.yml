@@ -25,7 +25,7 @@
        #state: present
      register: y
 
-   - name: Checking the Install Status
+   - name: Checking Install Status
      debug:
        var: y.failed
 
