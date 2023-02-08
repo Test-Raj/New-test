@@ -14,11 +14,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     
-    - name: Configure SSH key
-      uses: tanmancan/action-setup-ssh-agent-key@1.0.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
+        #- name: Configure SSH key
+        #uses: tanmancan/action-setup-ssh-agent-key@1.0.0
+        #with:
+        #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        #ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
           #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           #host: ${{ secrets.SSH_HOST }}
           #username: ${{ secrets.USERNAME }}
@@ -30,9 +30,9 @@ jobs:
         #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         #ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
 
-    - name: Connect over SSH
-      run: |
-           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -tt
+        #- name: Connect over SSH
+        #run: |
+        #ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -tt
 
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
