@@ -32,7 +32,7 @@ jobs:
 
     - name: Connect over SSH
       run: |
-           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -tt
+           ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -tt
 
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
