@@ -4,7 +4,7 @@ on:
     branches:
       - master
 env:
-  HOST: 100.25.0.194
+  HOST: 100.26.52.119
   USER: root
 
 jobs:
@@ -29,9 +29,9 @@ jobs:
         #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         #ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
 
-        #- name: Connect over SSH
-        #run: |
-        #ssh -T ${{ env.USER }}@${{ env.HOST }}
+    - name: Connect over SSH
+      run: |
+        ssh -T ${{ env.USER }}@${{ env.HOST }}
 
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
