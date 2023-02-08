@@ -30,9 +30,9 @@ jobs:
         #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         #ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
 
-        #- name: Connect over SSH
-        #run: |
-        #ssh -T ${{ env.USER }}@${{ env.HOST }}
+    - name: Connect over SSH
+      run: |
+           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -tt
 
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
