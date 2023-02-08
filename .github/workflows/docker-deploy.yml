@@ -3,9 +3,10 @@ on:
   push:
     branches:
       - master
-        #env:
-        #ANSIBLE_HOST: 172.31.62.26
-        #ANSIBLE_USER: ansadmin
+env:
+  HOST: 172.31.62.72
+  USER: root
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,6 +22,16 @@ jobs:
           #host: ${{ secrets.SSH_HOST }}
           #username: ${{ secrets.USERNAME }}
           #password: ${{ secrets.PASSWORD }}
+        
+    - name: Set up SSH
+      uses: actions/setup-ssh@v1
+      with:
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Connect over SSH
+      run: |
+        ssh -T ${{ env.USER }}@${{ env.HOST }}
+
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
       #with:
