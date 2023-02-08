@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - master
-env:
-    HOST: 100.25.0.194
-    USER: root
+        #env:
+  #HOST: 100.25.0.194
+  #USER: root
 
 jobs:
   deploy:
@@ -29,7 +29,7 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
-        ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
         #- name: Connect over SSH
         #run: |
@@ -44,6 +44,6 @@ jobs:
           #172.31.62.72
           #[ansible]
           #172.31.19.79
-      run: ansible-playbook -i inventory.yml playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }}"
+      run: ansible-playbook -i inventory.yml playbook.yml #--extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }}"
 
 
