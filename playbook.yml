@@ -53,7 +53,7 @@
        #command: docker rmi httpd
        #ignore_errors: yes
 
-   - name: Pull Docker Image
+   - name: Pull a Docker Image
      command: sudo docker pull httpd:latest
        #docker_image:
        #name: httpd
