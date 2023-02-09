@@ -43,7 +43,7 @@ jobs:
           #172.31.62.72
           #[ansible]
           #172.31.19.79
-      run: ansible-playbook -i inventory.yml /etc/ansible/roles playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }} host_key_checking=false"
+      run: ansible-playbook -i inventory.yml -i /etc/ansible/roles playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }} host_key_checking=false"
     
     - name: Deploy web application on container
       run: curl -v -T /root/pv 'http://ec2-3-85-177-142.compute-1.amazonaws.com:8082'
