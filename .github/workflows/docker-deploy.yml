@@ -46,6 +46,6 @@ jobs:
       run: ansible-playbook -i inventory.yml playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }} host_key_checking=false"
     
     - name: Deploy web application on container
-      run: curl -v -T /root/pv 'ec2-3-85-177-142.compute-1.amazonaws.com:8082'
+      run: curl -v -T /root/pv 'http://ec2-3-85-177-142.compute-1.amazonaws.com:8082'
 
 

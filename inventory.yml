@@ -3,7 +3,7 @@
 #ansible_connection=ssh ansible_user=ansadmin  ansible_password='Password@123' ansible_become=true
 
 [remoteserver]
-172.31.62.72 
+3.85.177.142 
 
 [ansible]
-172.31.19.79
+54.164.60.96
