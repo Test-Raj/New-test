@@ -1,5 +1,5 @@
 ---
-- name: Deploy and configure Docker
+- name: Deploy and Configure Docker
   hosts: remoteserver
   become: yes
   roles:
