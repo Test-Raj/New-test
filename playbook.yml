@@ -3,5 +3,5 @@
   hosts: remoteserver
   become: yes
   roles:
-    - role: configure_docker
-    - role: deploy_docker
+    - configure_docker
+    - deploy_docker
