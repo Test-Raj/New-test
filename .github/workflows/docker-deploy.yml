@@ -4,7 +4,7 @@ on:
     branches:
       - master
 env:
-  HOST: 100.25.0.194
+  HOST: 3.85.177.142
   USER: root
 
 jobs:
@@ -44,5 +44,8 @@ jobs:
           #[ansible]
           #172.31.19.79
       run: ansible-playbook -i inventory.yml playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }} host_key_checking=false"
+    
+    - name: Deploy web application on container
+      run: curl -v -T /root/pv 'ec2-3-85-177-142.compute-1.amazonaws.com:8082'
 
 
