@@ -4,7 +4,7 @@ on:
     branches:
       - master
 env:
-  HOST: 3.85.177.142
+  HOST: 52.205.183.11
   USER: root
 
 jobs:
@@ -24,12 +24,12 @@ jobs:
           #username: ${{ secrets.USERNAME }}
           #password: ${{ secrets.PASSWORD }}
         
-    - name: Set up SSH
-      uses: tanmancan/action-setup-ssh-agent-key@1.0.0 
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
-        ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+        #- name: Set up SSH
+        #uses: tanmancan/action-setup-ssh-agent-key@1.0.0 
+      #with:
+        #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        #ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
+        #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
     - name: Connect over SSH
       run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
@@ -43,9 +43,9 @@ jobs:
           #172.31.62.72
           #[ansible]
           #172.31.19.79
-      run: ansible-playbook -i inventory.yml -c ansible.cfg playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }} host_key_checking=false"
+      run: ansible-playbook -i inventory.yml -c ansible.cfg playbook.yml --extra-vars "ansible_connection=ssh user=${{ env.USER }} host=${{ env.HOST }} host_key_checking=false"
     
     - name: Deploy web application on container
-      run: curl -v -T 'https://github.com/Test-Raj/New-test/blob/master/index.html' 'http://ec2-3-85-177-142.compute-1.amazonaws.com:8082'
+      run: curl -v -T index.html 'http://ec2-52-205-183-11.compute-1.amazonaws.com:8082'
 
 
