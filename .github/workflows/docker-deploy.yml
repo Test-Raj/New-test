@@ -35,7 +35,7 @@ jobs:
         ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
     - name: Connect over SSH
-      run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
+      run: ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=publickey -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
 
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
