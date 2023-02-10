@@ -23,8 +23,11 @@ jobs:
           #host: ${{ secrets.SSH_HOST }}
           #username: ${{ secrets.USERNAME }}
           #password: ${{ secrets.PASSWORD }}
-        
-    - name: Set up SSH
+       
+    - name: Start ssh-agent
+      run: eval $(ssh-agent -s)
+
+    - name: Add SSH keys
       uses: tanmancan/action-setup-ssh-agent-key@1.0.0 
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
