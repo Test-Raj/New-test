@@ -4,7 +4,7 @@ on:
     branches:
       - master
 env:
-  HOST: 54.167.86.246
+  HOST: 3.95.57.249
   USER: root
 
 jobs:
