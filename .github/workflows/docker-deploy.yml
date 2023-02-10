@@ -35,7 +35,7 @@ jobs:
         ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
     - name: Connect over SSH
-      run: ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=publickey -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
+      run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
 
     - name: Run Ansible Playbook
       #uses: euclid1990/actions-ansible@v2
@@ -46,7 +46,7 @@ jobs:
           #172.31.62.72
           #[ansible]
           #172.31.19.79
-      run: ansible-playbook -i inventory.yml playbook.yml --extra-vars "ansible_connection=ssh user=${{ env.USER }} host=${{ env.HOST }} host_key_checking=false"
+      run: ansible-playbook -i inventory.yml playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }} host_key_checking=false"
     
     - name: Deploy web application on container
       run: curl -v -T index.html 'http://ec2-54-167-86-246.compute-1.amazonaws.com:8082'
