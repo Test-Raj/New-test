@@ -46,7 +46,7 @@ jobs:
           #172.31.62.72
           #[ansible]
           #172.31.19.79
-      run: ansible-playbook -i inventory.yml playbook.yml --extra-vars "ansible_connection=ssh user=${{ env.USER }} host=${{ env.HOST }} host_key_checking=false"
+      run: ansible-playbook -i inventory.yml -u root playbook.yml --extra-vars "ansible_connection=ssh user=${{ env.USER }} host=${{ env.HOST }} host_key_checking=false"
     
     - name: Deploy web application on container
       run: curl -v -T index.html 'http://ec2-54-167-86-246.compute-1.amazonaws.com:8082'
