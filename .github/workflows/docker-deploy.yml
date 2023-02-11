@@ -1,4 +1,4 @@
-name: Deploy to Remote Host
+name: Configure and Deploy docker to Remote Host
 on:
   push:
     branches:
@@ -13,21 +13,8 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v3
-    
-        #- name: Configure SSH key
-        #uses: tanmancan/action-setup-ssh-agent-key@1.0.0
-        #with:
-        #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        #ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
-          #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-          #host: ${{ secrets.SSH_HOST }}
-          #username: ${{ secrets.USERNAME }}
-          #password: ${{ secrets.PASSWORD }}
-       
-        #- name: Start ssh-agent
-        #run: eval $(ssh-agent -s)
 
-    - name: Add SSH keys
+    - name: SSH keys
       uses: tanmancan/action-setup-ssh-agent-key@1.0.0 
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -38,14 +25,6 @@ jobs:
       run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
 
     - name: Run Ansible Playbook
-      #uses: euclid1990/actions-ansible@v2
-      #with:
-      #playbook: playbook.yml
-          #inventory: |
-          #[remote_server]
-          #172.31.62.72
-          #[ansible]
-          #172.31.19.79
       run: ansible-playbook -i inventory.yml playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }} host_key_checking=false"
     
     - name: Deploy web application on container
