@@ -23,16 +23,16 @@ jobs:
         id: ec2
         run: aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --security-group-ids sg-0123456789abcdef --subnet-id subnet-020947d6155dd1c85
           #uses: shreyasingh18/Packer-AWS-Actions
-        with:
+          #with:
           #image-id: ami-005f9685cb30f234b
           #instance-type: t2.micro
           #subnet-id: subnet-020947d6155dd1c85
           #security-group-ids: sg-0a35ae1155f32dfad
           #key-name: Devops_Project_Key
-          user-data: |
+          #user-data: |
             #!/bin/bash
-            echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
-            sudo yum update
+            #echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+            #sudo yum update
             #sudo apt-get install -y python3-pip python3-dev
             #sudo apt-get install -y libssl-dev libffi-dev python3-setuptools
 
