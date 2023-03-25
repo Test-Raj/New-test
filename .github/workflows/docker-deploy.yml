@@ -42,7 +42,7 @@ jobs:
             # Get instance IP address
             INSTANCE_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
 
-            echo "Instance IP: $INSTANCE_IP"
+            #echo "Instance IP: $INSTANCE_IP"
 
       - name: Deploy Docker with Ansible
         uses: hengkx/ssh-deploy@v1.0.1
