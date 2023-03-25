@@ -21,13 +21,14 @@ jobs:
 
       - name: Create EC2 instance
         id: ec2
-        uses: shreyasingh18/Packer-AWS-Actions
+        run: aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --security-group-ids sg-0123456789abcdef --subnet-id subnet-020947d6155dd1c85
+          #uses: shreyasingh18/Packer-AWS-Actions
         with:
-          image-id: ami-005f9685cb30f234b
-          instance-type: t2.micro
-          subnet-id: subnet-020947d6155dd1c85
-          security-group-ids: sg-0a35ae1155f32dfad
-          key-name: Devops_Project_Key
+          #image-id: ami-005f9685cb30f234b
+          #instance-type: t2.micro
+          #subnet-id: subnet-020947d6155dd1c85
+          #security-group-ids: sg-0a35ae1155f32dfad
+          #key-name: Devops_Project_Key
           user-data: |
             #!/bin/bash
             echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
