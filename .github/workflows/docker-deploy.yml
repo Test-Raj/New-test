@@ -21,7 +21,7 @@ jobs:
 
       - name: Create EC2 instance
         id: ec2
-        uses: aws-actions/ec2-run-instances@v2
+        uses: shreyasingh18/Packer-AWS-Actions
         with:
           image-id: ami-005f9685cb30f234b
           instance-type: t2.micro
