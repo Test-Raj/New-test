@@ -1,33 +1,61 @@
-name: Configure and Deploy docker to Remote Host
+name: Deploy to EC2 instance
 on:
   push:
     branches:
       - master
-env:
-  HOST: 34.229.49.251
-  USER: root
 
 jobs:
-  deploy:
+  Build & deploy:
     runs-on: self-hosted
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: SSH keys
-      uses: tanmancan/action-setup-ssh-agent-key@1.0.0 
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
-        ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-    - name: Connect over SSH
-      run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
+      - name: Create EC2 instance
+        id: ec2
+        uses: aws-actions/ec2-run-instances@v1
+        with:
+          image-id: ami-005f9685cb30f234b
+          instance-type: t2.micro
+          subnet-id: subnet-020947d6155dd1c85
+          security-group-ids: sg-0a35ae1155f32dfad
+          key-name: Devops_Project_Key
+          user-data: |
+            #!/bin/bash
+            echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+            sudo yum update
+            #sudo apt-get install -y python3-pip python3-dev
+            #sudo apt-get install -y libssl-dev libffi-dev python3-setuptools
 
-    - name: Run Ansible Playbook
-      run: ansible-playbook -i inventory.yml playbook.yml --extra-vars "ansible_connection=ssh ansible_user=${{ env.USER }} ansible_host=${{ env.HOST }} host_key_checking=false"
-    
-    - name: Deploy web application on container
-      run: curl -v -T index.html 'http://ec2-34-229-49-251.compute-1.amazonaws.com:8082'
+            # Get instance ID
+            INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+
+            # Get instance IP address
+            INSTANCE_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+
+            echo "Instance IP: $INSTANCE_IP"
+
+      - name: Deploy Docker with Ansible
+        uses: jkehres/ssh-deploy@v0.4.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          ssh-username: root
+          ssh-host: ${{ steps.ec2.outputs.public_ip }}
+          ssh-port: 22
+          commands: ansible-playbook playbook.yml -e "host=${{ steps.ec2.outputs.public_ip }}"
+          
+      - name: Deploy web application on container
+        run: |
+             docker cp index.html apache-server:/usr/local/apache2/htdocs/
+             docker restart apache-server
 
 

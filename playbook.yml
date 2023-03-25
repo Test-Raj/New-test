@@ -1,6 +1,6 @@
 ---
 - name: Deploy and configure Docker
-  hosts: remoteserver
+  hosts: "{{ host }}"
   become: yes
   roles:
     - configure_docker
