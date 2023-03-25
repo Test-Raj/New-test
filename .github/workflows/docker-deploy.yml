@@ -21,7 +21,7 @@ jobs:
 
       - name: Create EC2 instance
         id: ec2
-        uses: aws-actions/ec2-run-instances@v1
+        uses: aws-actions/ec2-run-instances@v2
         with:
           image-id: ami-005f9685cb30f234b
           instance-type: t2.micro
@@ -44,7 +44,7 @@ jobs:
             echo "Instance IP: $INSTANCE_IP"
 
       - name: Deploy Docker with Ansible
-        uses: jkehres/ssh-deploy@v0.4.3
+        uses: hengkx/ssh-deploy@v1.0.1
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
