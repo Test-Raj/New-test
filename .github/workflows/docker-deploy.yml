@@ -21,7 +21,7 @@ jobs:
 
       - name: Create EC2 instance
         id: ec2
-        run: aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --security-group-ids sg-0123456789abcdef --subnet-id subnet-020947d6155dd1c85
+        run: aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --subnet-id subnet-020947d6155dd1c85
           #uses: shreyasingh18/Packer-AWS-Actions
           #with:
           #image-id: ami-005f9685cb30f234b
