@@ -52,7 +52,7 @@ jobs:
           PORT: 22
           SOURCE: .
           TARGET: /home/ec2-user
-          commands: ansible-playbook playbook.yml -e "host=${{ steps.ec2.outputs.public_ip }}"
+          AFTER_COMMAND: ansible-playbook playbook.yml -e "host=${{ steps.ec2.outputs.public_ip }}"
           
       - name: Deploy a web application on container
         run: |
