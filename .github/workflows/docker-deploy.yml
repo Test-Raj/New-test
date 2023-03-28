@@ -40,10 +40,10 @@ jobs:
         run: echo "Public IP: $(curl http://169.254.169.254/latest/meta-data/public-ipv4)"
 
             # Get instance ID
-            INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+            #INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
 
             # Get instance IP address
-            INSTANCE_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+            #INSTANCE_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
 
             #echo "Instance IP: $INSTANCE_IP"
 
