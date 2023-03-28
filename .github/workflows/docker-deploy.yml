@@ -45,11 +45,13 @@ jobs:
       - name: Deploy Docker with Ansible
         uses: hengkx/ssh-deploy@v1.0.1
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-          ssh-username: root
-          ssh-host: ${{ steps.ec2.outputs.public_ip }}
-          ssh-port: 22
+          PASSWORD: ${{ secrets.SSH_PRIVATE_KEY }}
+          #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          USERNAME: root
+          HOST: ${{ steps.ec2.outputs.public_ip }}
+          PORT: 22
+          SOURCE: .
+          TARGET: /home/ec2-user
           commands: ansible-playbook playbook.yml -e "host=${{ steps.ec2.outputs.public_ip }}"
           
       - name: Deploy web application on container
