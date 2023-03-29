@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - master
+env:
+  HOST: 172.31.19.79
+  USER: root
 
 jobs:
   Build-deploy:
@@ -21,7 +24,7 @@ jobs:
 
       - name: Create EC2 instance
         id: ec2
-        run: aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --subnet-id subnet-020947d6155dd1c85
+        run: aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --subnet-id subnet-020947d6155dd1c85 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=my-instance}]'
           #uses: shreyasingh18/Packer-AWS-Actions
           #with:
           #image-id: ami-005f9685cb30f234b
@@ -42,10 +45,21 @@ jobs:
             INSTANCE_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
             echo "Public IP: $INSTANCE_IP"
 
+      - name: SSH keys
+        uses: tanmancan/action-setup-ssh-agent-key@1.0.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Connect over SSH
+        run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
+
+
       - name: Deploy Docker with Ansible
         uses: hengkx/ssh-deploy@v1.0.1
         with:
-          PASSWORD: ${{ secrets.SSH_PRIVATE_KEY }}
+          #PASSWORD: ${{ secrets.SSH_PRIVATE_KEY }}
           #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           USERNAME: root
           HOST: ${{ steps.ec2.outputs.public_ip }}
