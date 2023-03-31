@@ -4,7 +4,9 @@ on:
     branches:
       - master
 env:
-  HOST: 54.82.57.48
+  AWS_REGION: 'us-east-1'
+  EC2_INSTANCE_NAME: 'my-instance'
+  HOST: 107.20.23.198
   USER: root
 
 jobs:
@@ -20,11 +22,15 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-east-1'
-
+          aws-region: ${{ env.AWS_REGION }}
+i
       - name: Create EC2 instance
         id: ec2
-        run: aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --subnet-id subnet-020947d6155dd1c85 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=my-instance}]'
+        run: |
+           instance_id=$(aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --subnet-id subnet-020947d6155dd1c85 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value='${{ env.EC2_INSTANCE_NAME }}'}]' --query 'Instances[0].InstanceId' --output text)
+           aws ec2 wait instance-running --instance-ids $instance_id
+           public_ip=$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+           echo "::set-env name=EC2_PUBLIC_IP::$public_ip"
           #uses: shreyasingh18/Packer-AWS-Actions
           #with:
           #image-id: ami-005f9685cb30f234b
@@ -39,11 +45,6 @@ jobs:
             #sudo apt-get install -y python3-pip python3-dev
             #sudo apt-get install -y libssl-dev libffi-dev python3-setuptools
 
-      - name: Get IP address
-        run: |
-            INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-            INSTANCE_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
-            echo "Public IP: $INSTANCE_IP"
 
       - name: SSH keys
         uses: tanmancan/action-setup-ssh-agent-key@1.0.0
@@ -53,20 +54,23 @@ jobs:
           ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
       - name: Connect over SSH
-        run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
+        run: ssh -o StrictHostKeyChecking=no ${{ env.EC2_PUBLIC_IP }} 'uname -a'
 
 
       - name: Deploy Docker with Ansible
-        uses: hengkx/ssh-deploy@v1.0.1
-        with:
+        run: |
+            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -T ${{ env.USER }}@${{ env.HOST }}
+            ansible-playbook playbook.yml -e "host=${{ env.EC2_PUBLIC_IP }}"
+        #uses: hengkx/ssh-deploy@v1.0.1
+        #with:
           #PASSWORD: ${{ secrets.SSH_PRIVATE_KEY }}
           #ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-          USERNAME: root
-          HOST: ${{ steps.ec2.outputs.public_ip }}
-          PORT: 22
-          SOURCE: .
-          TARGET: /home/ec2-user
-          AFTER_COMMAND: ansible-playbook playbook.yml -e "host=${{ steps.ec2.outputs.public_ip }}"
+          #USERNAME: root
+          #HOST: ${{ steps.ec2.outputs.public_ip }}
+          #PORT: 22
+          #SOURCE: .
+          #TARGET: /home/ec2-user
+          #AFTER_COMMAND: ansible-playbook playbook.yml -e "host=${{ steps.ec2.outputs.public_ip }}"
           
       - name: Deploy a web application on container
         run: |
