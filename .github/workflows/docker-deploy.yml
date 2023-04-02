@@ -27,7 +27,7 @@ jobs:
       - name: Create EC2 instance
         id: ec2
         run: |
-           instance_id=$(aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --subnet-id subnet-020947d6155dd1c85 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value='${{ env.EC2_INSTANCE_NAME }}'}]' --query 'Instances[0].InstanceId' --output text)
+           instance_id=$(aws ec2 run-instances --image-id ami-005f9685cb30f234b --instance-type t2.micro --key-name Devops_Project_Key --subnet-id subnet-020947d6155dd1c85 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value='${{ env.EC2_INSTANCE_NAME }}'}]' --security-group-ids sgr-0169940baab2d3cf1,sgr-01b65c07c33b7f069 --query 'Instances[0].InstanceId' --output text)
            aws ec2 wait instance-running --instance-ids $instance_id
            EC2_PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
            echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
