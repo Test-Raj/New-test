@@ -6,7 +6,7 @@ on:
 env:
   AWS_REGION: 'us-east-1'
   EC2_INSTANCE_NAME: 'my-instance'
-  HOST: 172.31.19.79
+  HOST: 18.207.96.188
   USER: root
 
 jobs:
