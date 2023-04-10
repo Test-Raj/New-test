@@ -77,7 +77,7 @@ jobs:
           #TARGET: /home/ec2-user
           #AFTER_COMMAND: ansible-playbook playbook.yml -e "host=${{ steps.ec2.outputs.public_ip }}"
           
-      - name: Deploy a web application on container
+      - name: Deploy web application on a container
         run: |
              docker cp index.html apache-server:/usr/local/apache2/htdocs/
              docker restart apache-server
