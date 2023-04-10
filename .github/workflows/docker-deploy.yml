@@ -6,8 +6,8 @@ on:
 env:
   AWS_REGION: 'us-east-1'
   EC2_INSTANCE_NAME: 'my-instance'
-  HOST: 18.207.96.188
-  USER: root
+  HOST: 3.85.226.59
+  USER: ec2-user
 
 jobs:
   Build-deploy:
@@ -58,7 +58,7 @@ jobs:
       - name: Connect over SSH
         run: |
            echo "EC2 public IP address: ${{ steps.ec2.outputs.public_ip }}"
-           ssh -o StrictHostKeyChecking=no ${{ steps.ec2.outputs.public_ip }} 'uname -a'
+           ssh -o StrictHostKeyChecking=no -i ${USER}@${{ steps.ec2.outputs.public_ip }} 'uname -a'
 
 
       - name: Deploy Docker with Ansible
