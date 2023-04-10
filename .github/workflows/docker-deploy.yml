@@ -61,11 +61,10 @@ jobs:
         run: |
            echo "EC2 public IP address: ${{ steps.ec2.outputs.public_ip }}"
            echo "$ssh-private-key" > private_key && chmod 600 private_key
-           sudo yum update -y
+           ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${{ steps.ec2.outputs.public_ip }} 'uname -a'
            sudo yum install -y openssh-server
            sudo service sshd start
            sudo service sshd status
-           ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${{ steps.ec2.outputs.public_ip }} 'uname -a'
 
 
       - name: Deploy Docker with Ansible
