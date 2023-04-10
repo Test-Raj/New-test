@@ -56,9 +56,12 @@ jobs:
          #AFTER_COMMAND: echo "EC2 public IP address: ${{ steps.ec2.outputs.public_ip }}"
 
       - name: Connect over SSH
+        env:
+             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
            echo "EC2 public IP address: ${{ steps.ec2.outputs.public_ip }}"
-           ssh -o StrictHostKeyChecking=no -i ${USER}@${{ steps.ec2.outputs.public_ip }} 'uname -a'
+           echo "$ssh-private-key" > private_key && chmod 600 private_key
+           ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${{ steps.ec2.outputs.public_ip }} 'uname -a'
 
 
       - name: Deploy Docker with Ansible
